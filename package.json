@@ -21,6 +21,7 @@
     "@types/hast": "^2.3.4",
     "@types/node": "^18.14.6",
     "@types/parse-numeric-range": "^0.0.1",
+    "lodash": "^4.17.21",
     "rollup": "^3.18.0",
     "rollup-plugin-copy": "^3.4.0",
     "rollup-plugin-dts": "^5.2.0",

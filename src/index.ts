@@ -9,7 +9,7 @@ const isArrayOfStrings = (value: unknown): value is Array<string> =>
 
 let tokenizePool: TinypoolType
 
-export const remarkCodeBlocksShiki: Plugin<
+export const mdxCodeFormatter: Plugin<
   [{}?] | Array<void>,
   H.Root,
   H.Root

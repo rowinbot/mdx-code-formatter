@@ -1,4 +1,4 @@
-const camelCase = require('lodash.camelcase')
+const camelCase = require('lodash/camelcase')
 const typescript = require('rollup-plugin-typescript2')
 
 const rollupPluginCopy = require('rollup-plugin-copy')
@@ -56,11 +56,6 @@ module.exports = [
           { src: 'languages/**/*', dest: 'dist/languages' },
         ],
       }),
-      {
-        input: './src/index.d.ts',
-        output: [{ file: 'dist/types.d.ts', format: 'cjs' }],
-        plugins: [dts()],
-      },
       pluginCommonjs(),
       pluginJson(),
       pluginNodeResolve({
@@ -68,5 +63,10 @@ module.exports = [
         resolveOnly: [''],
       }),
     ],
+  },
+  {
+    input: './src/index.ts',
+    output: [{ file: 'dist/types.d.ts', format: 'es' }],
+    plugins: [dts()],
   },
 ]
