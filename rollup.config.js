@@ -66,7 +66,7 @@ module.exports = [
   },
   {
     input: './src/index.ts',
-    output: [{ file: 'dist/types.d.ts', format: 'es' }],
+    output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [dts()],
   },
 ]
