@@ -1,7 +1,7 @@
 {
   "name": "@rowinbot/mdx-code-formatter",
   "author": "Rowin Hernandez",
-  "version": "1.0.3-test.7",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
