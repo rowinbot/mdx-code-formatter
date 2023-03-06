@@ -58,8 +58,9 @@ module.exports = [
       }),
       pluginCommonjs(),
       pluginJson(),
+      pluginPolyfillNode(),
       pluginNodeResolve({
-        preferBuiltins: true,
+        preferBuiltins: false,
         resolveOnly: [''],
       }),
     ],
