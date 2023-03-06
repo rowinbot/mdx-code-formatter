@@ -27,7 +27,7 @@ export const mdxCodeFormatter: Plugin<
     tokenizePool =
       tokenizePool ||
       new Tinypool({
-        filename: require.resolve(__dirname + '/worker'),
+        filename: require.resolve(process.cwd() + '/dist/worker'),
         minThreads: 0,
         idleTimeout: 60,
       })
