@@ -3,7 +3,7 @@
     "moduleResolution": "node",
     "target": "ES2019",
     "module": "ES2020",
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "lib": ["ES2019"],
     "strict": true,
     "sourceMap": true,
     "declaration": true,

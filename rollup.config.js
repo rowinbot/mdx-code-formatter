@@ -58,7 +58,6 @@ module.exports = [
       }),
       pluginCommonjs(),
       pluginJson(),
-      pluginPolyfillNode(),
       pluginNodeResolve({
         preferBuiltins: false,
         resolveOnly: [''],
