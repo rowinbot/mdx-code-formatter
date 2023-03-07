@@ -1,11 +1,13 @@
 import rangeParser from 'parse-numeric-range'
+import type { Tinypool as TinypoolType } from 'tinypool'
 import type { Plugin } from 'unified'
 import type * as H from 'hast'
 import type { HighlightWorkerReturn } from './worker'
-import highlight from './worker'
 
 const isArrayOfStrings = (value: unknown): value is Array<string> =>
   Array.isArray(value) && value.every((v) => typeof v === 'string')
+
+let tokenizePool: TinypoolType
 
 export const mdxCodeFormatter: Plugin<
   [{}?] | Array<void>,
@@ -13,10 +15,19 @@ export const mdxCodeFormatter: Plugin<
   H.Root
 > = () => {
   return async function transformer(tree) {
-    const [{ visit, SKIP }, { htmlEscape }] = await Promise.all([
+    const [{ visit, SKIP }, { htmlEscape }, { Tinypool }] = await Promise.all([
       import('unist-util-visit'),
       import('escape-goat'),
+      import('tinypool'),
     ])
+    // using a worker thread pool because shiki has memory leaks
+    tokenizePool =
+      tokenizePool ||
+      new Tinypool({
+        filename: require.resolve(__dirname + '/worker'),
+        minThreads: 0,
+        idleTimeout: 60,
+      })
 
     type PreNodeInfo = {
       preNode: H.Element
@@ -83,11 +94,10 @@ export const mdxCodeFormatter: Plugin<
         : 1
       const startingLineNumber = Number.isFinite(startValNum) ? startValNum : 1
       const numbers = !metaParams.has('nonumber')
-      const { tokens, fgColor, bgColor }: HighlightWorkerReturn =
-        await highlight({
-          code: codeString,
-          language,
-        })
+      const { tokens, fgColor, bgColor } = (await tokenizePool.run({
+        code: codeString,
+        language,
+      })) as HighlightWorkerReturn
       const isDiff = addedLines.length > 0 || removedLines.length > 0
       let diffLineNumber = startingLineNumber - 1
       const children = tokens.map((lineTokens, zeroBasedLineNumber) => {
